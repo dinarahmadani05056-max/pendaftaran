@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pendaftaran TK Ceria</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #ffe3f1;
+    padding: 20px;
+}
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+}
+h2, h3 {
+    text-align: center;
+    color: #ff5fa2;
+}
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 10px;
+}
+button {
+    background: #ff7bbd;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.hidden {
+    display: none;
+}
+.bukti {
+    border: 1px solid #ff5fa2;
+    padding: 15px;
+    background: #fff0f8;
+}
+.password-box {
+    display: flex;
+    gap: 5px;
+}
+.password-box button {
+    width: 60px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- LOGIN ADMIN -->
+<div id="loginDiv">
+    <h2>Login Admin</h2>
+    <input type="text" id="username" placeholder="Username">
+
+    <div class="password-box">
+        <input type="password" id="password" placeholder="Password">
+        <button type="button" onclick="lihatPassword()">👁</button>
+    </div>
+
+    <button onclick="login()">Masuk</button>
+</div>
+
+<!-- FORM PENDAFTARAN -->
+<form id="formDiv" class="hidden"
+action="https://docs.google.com/forms/d/e/1FAIpQLSdSeCrMG_CCBt08QxeI3G1fmA-mLlMnufwoXEGOSiUMFq6CxQ/formResponse"
+method="POST"
+target="hidden_iframe"
+onsubmit="return simpanData();">
+
+<h2>Pendaftaran TK Ceria</h2>
+
+<h3>Data Siswa</h3>
+<input name="entry.156628910" id="namaSiswa" placeholder="Nama Siswa" required>
+<input name="entry.256924466" id="umurSiswa" type="number" placeholder="Umur" required>
+<input name="entry.384628529" id="tempatSiswa" placeholder="Tempat Lahir">
+<input name="entry.411402185" id="tglSiswa" type="date">
+<input name="entry.980214648" id="alamatSiswa" placeholder="Alamat">
+
+<select name="entry.1020534415" id="jkSiswa">
+    <option value="">Jenis Kelamin</option>
+    <option>Laki-laki</option>
+    <option>Perempuan</option>
+</select>
+
+<h3>Data Orang Tua</h3>
+<input name="entry.1297151589" id="namaAyah" placeholder="Nama Ayah">
+<input name="entry.1545747520" id="pekerjaanAyah" placeholder="Pekerjaan Ayah">
+<input name="entry.1698270829" id="noHpAyah" placeholder="No HP Ayah">
+
+<input name="entry.2096962405" id="namaIbu" placeholder="Nama Ibu">
+<input name="entry.15710349" id="pekerjaanIbu" placeholder="Pekerjaan Ibu">
+<input name="entry.1698270829" id="noHpIbu" placeholder="No HP Ibu">
+
+<h3>Data Wali (Opsional)</h3>
+<input name="entry.169558348" id="namaWali" placeholder="Nama Wali">
+<input name="entry.337509858" id="noHpWali" placeholder="No HP Wali">
+
+<h3>Upload Berkas</h3>
+<input type="file" id="kkFile">
+<input type="file" id="akteFile">
+
+<button type="submit">Simpan Pendaftaran</button>
+</form>
+
+<!-- BUKTI -->
+<div id="buktiDiv" class="hidden">
+<h2>Bukti Pendaftaran</h2>
+<div id="buktiData" class="bukti"></div>
+<button onclick="window.print()">Cetak Bukti</button>
+</div>
+
+</div>
+
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+
+<script>
+function lihatPassword() {
+    password.type = password.type === "password" ? "text" : "password";
+}
+
+function login() {
+    if (username.value === "" || password.value === "") {
+        alert("Username dan password harus diisi");
+        return;
+    }
+    loginDiv.classList.add("hidden");
+    formDiv.classList.remove("hidden");
+}
+
+function simpanData() {
+
+    var namaKK = kkFile.files[0] ? kkFile.files[0].name : "-";
+    var namaAkte = akteFile.files[0] ? akteFile.files[0].name : "-";
+
+    buktiData.innerHTML =
+        "<b>Status:</b> Pendaftaran Berhasil<br><br>" +
+
+        "<b>DATA SISWA</b><br>" +
+        "Nama: " + namaSiswa.value + "<br>" +
+        "Umur: " + umurSiswa.value + "<br>" +
+        "Jenis Kelamin: " + jkSiswa.value + "<br><br>" +
+
+        "<b>DATA AYAH</b><br>" +
+        "Nama: " + namaAyah.value + "<br>" +
+        "Pekerjaan: " + pekerjaanAyah.value + "<br>" +
+        "No HP: " + noHpAyah.value + "<br><br>" +
+
+        "<b>DATA IBU</b><br>" +
+        "Nama: " + namaIbu.value + "<br>" +
+        "Pekerjaan: " + pekerjaanIbu.value + "<br>" +
+        "No HP: " + noHpIbu.value + "<br><br>" +
+
+        "<b>DATA WALI</b><br>" +
+        "Nama Wali: " + namaWali.value + "<br>" +
+        "No HP Wali: " + noHpWali.value + "<br><br>" +
+
+        "<b>BERKAS</b><br>" +
+        "KK: " + namaKK + "<br>" +
+        "Akte: " + namaAkte;
+
+    formDiv.classList.add("hidden");
+    buktiDiv.classList.remove("hidden");
+
+    return true;
+}
+</script>
+
+</body>
+</html>
